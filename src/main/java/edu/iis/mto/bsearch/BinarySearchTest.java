@@ -6,13 +6,17 @@ import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 
 public class BinarySearchTest {
+	
+	private static final int FIRST_INDEX = 0;
 
 	@Test
 	public void shouldFindElementInSingleElementSequence() {
-		int[] seq = new int[] {4};
-		SearchResult result = BinarySearch.search(4, seq);
+		int key = 4;
+		int[] seq = new int[] {key};
+		SearchResult result = BinarySearch.search(key, seq);
 		
 		assertThat(result.isFound(), equalTo(true));
+		assertThat(seq[result.getPosition()], equalTo(key));
 	}
 
 	@Test
@@ -25,33 +29,50 @@ public class BinarySearchTest {
 	
 	@Test
 	public void shouldFindElementAtFirstIndexInMultipleElementSequence() {
-		int[] seq = new int[] {1,2,3};
-		SearchResult result = BinarySearch.search(1, seq);
+		int key = 1;
+		int[] seq = new int[] {key,2,3};
+		SearchResult result = BinarySearch.search(key, seq);
 		
 		assertThat(result.isFound(), equalTo(true));
+		assertThat(seq[result.getPosition()], equalTo(key));
+		assertThat(result.getPosition(), equalTo(FIRST_INDEX));
 	}
 	
 	@Test
 	public void shouldFindElementInTheMiddleInMultipleElementSequence() {
-		int[] seq = new int[] {1,2,3};
-		SearchResult result = BinarySearch.search(2, seq);
+		int key = 3;
+		int[] seq = new int[] {1,2,key,4,5};
+		SearchResult result = BinarySearch.search(key, seq);
 		
 		assertThat(result.isFound(), equalTo(true));
+		assertThat(seq[result.getPosition()], equalTo(key));
+		assertThat(result.getPosition(), equalTo(seq.length/2));
 	}
 	
 	@Test
 	public void shouldFindElementAtLastIndexInMultipleElementSequence() {
-		int[] seq = new int[] {1,2,3};
-		SearchResult result = BinarySearch.search(3, seq);
+		int key = 4;
+		int[] seq = new int[] {1,2,3,key};
+		SearchResult result = BinarySearch.search(key, seq);
 		
 		assertThat(result.isFound(), equalTo(true));
+		assertThat(seq[result.getPosition()], equalTo(key));
+		assertThat(result.getPosition(), equalTo(seq.length - 1));
 	}
 	
 	@Test
 	public void shouldNotFindElementInMultipleElementSequence() {
-		int[] seq = new int[] {1,2,3};
-		SearchResult result = BinarySearch.search(4, seq);
+		int key = 5;
+		int[] seq = new int[] {1,2,3,4};
+		SearchResult result = BinarySearch.search(key, seq);
 		
 		assertThat(result.isFound(), equalTo(false));
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void shouldThrowIllegalArgumentException() {
+		int key = 4;
+		int[] seq = new int[0];
+		SearchResult result = BinarySearch.search(key, seq);
 	}
 }
