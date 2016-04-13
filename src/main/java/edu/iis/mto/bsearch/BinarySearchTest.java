@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class BinarySearchTest {
 	
+	private static final int NOT_FOUND = -1;
 	private static final int FIRST_INDEX = 0;
 
 	@Test
@@ -25,6 +26,7 @@ public class BinarySearchTest {
 		SearchResult result = BinarySearch.search(4, seq);
 		
 		assertThat(result.isFound(), equalTo(false));
+		assertThat(result.getPosition(), equalTo(NOT_FOUND));
 	}
 	
 	@Test
@@ -67,6 +69,7 @@ public class BinarySearchTest {
 		SearchResult result = BinarySearch.search(key, seq);
 		
 		assertThat(result.isFound(), equalTo(false));
+		assertThat(result.getPosition(), equalTo(NOT_FOUND));
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
